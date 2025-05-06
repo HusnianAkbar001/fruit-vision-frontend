@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
 import { loginUser, registerUser, logoutUser } from "../api/api";
 import { useToast } from "@/hooks/use-toast";
@@ -12,7 +11,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string, email?: string) => Promise<void>;
+  register: (username: string, password: string, email: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -58,15 +57,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const register = async (username: string, password: string, email?: string) => {
+  const register = async (username: string, password: string, email: string) => {
     setIsLoading(true);
     try {
+      console.log("Registering user:", { username, email });
       await registerUser(username, password, email);
       toast({
         title: "Success",
         description: "Registration successful! Please login.",
       });
     } catch (error: any) {
+      console.error("Registration error in context:", error);
       toast({
         title: "Error",
         description: error.message,

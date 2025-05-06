@@ -19,17 +19,20 @@ API.interceptors.request.use((config) => {
 });
 
 // Auth APIs
-export const registerUser = async (username: string, password: string, email?: string) => {
+export const registerUser = async (username: string, password: string, email: string) => {
   try {
     const userData = { 
       username, 
       password,
-      ...(email && { email }) // Add email to request if provided
+      email
     };
     
+    console.log("Sending registration data:", userData);
     const response = await API.post("/register", userData);
+    console.log("Registration response:", response.data);
     return response.data;
   } catch (error: any) {
+    console.error("Registration error:", error.response || error);
     throw new Error(error.response?.data?.message || "Registration failed");
   }
 };
