@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
 import { loginUser, registerUser, logoutUser } from "../api/api";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface User {
   username: string;
@@ -12,7 +12,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string) => Promise<void>;
+  register: (username: string, password: string, email?: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -58,10 +58,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const register = async (username: string, password: string) => {
+  const register = async (username: string, password: string, email?: string) => {
     setIsLoading(true);
     try {
-      await registerUser(username, password);
+      await registerUser(username, password, email);
       toast({
         title: "Success",
         description: "Registration successful! Please login.",

@@ -9,9 +9,9 @@ const Register = () => {
   const navigate = useNavigate();
   const [submitError, setSubmitError] = useState("");
 
-  const handleRegister = async (username: string, password: string) => {
+  const handleRegister = async (username: string, password: string, email?: string, confirmPassword?: string) => {
     try {
-      await register(username, password);
+      await register(username, password, email);
       navigate("/login");
     } catch (error: any) {
       setSubmitError(error.message);

@@ -19,9 +19,15 @@ API.interceptors.request.use((config) => {
 });
 
 // Auth APIs
-export const registerUser = async (username: string, password: string) => {
+export const registerUser = async (username: string, password: string, email?: string) => {
   try {
-    const response = await API.post("/register", { username, password });
+    const userData = { 
+      username, 
+      password,
+      ...(email && { email }) // Add email to request if provided
+    };
+    
+    const response = await API.post("/register", userData);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "Registration failed");
